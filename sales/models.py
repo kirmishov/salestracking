@@ -44,4 +44,7 @@ class Sale(models.Model):
         return '{}-{}-{}'.format(date_only, full_name_customer, outcome)
     """
     def get_absolute_url(self):
-        return reverse('sales:detail', args=[str(self.id)])
+        return reverse('sales:detail', args=[str(self.id)]) # from 'sales:detail'
+    
+    def __str__(self):
+        return '{} | {} | {}'.format(self.author, self.date, self.full_name_customer)

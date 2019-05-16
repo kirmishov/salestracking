@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     # Local
     'users.apps.UsersConfig',
     'sales.apps.SalesConfig',
+
+    # 3rd party
+    'django_tables2',
 ]
 
 MIDDLEWARE = [

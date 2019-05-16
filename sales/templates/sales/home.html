@@ -1,6 +1,9 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
 {% if user.is_authenticated %}
-<h3>Hi {{ user.username }}!</h3>
-  <p><a href="{% url 'logout' %}">logout</a></p>
+<h3>Hi {{ user.username }}! | <a href="{% url 'logout' %}">logout</a></h3>
   {% if user.is_superuser %}
     <p><a href="{% url 'sales:summary' %}">Summary</a></p>
   {% endif %}
@@ -11,13 +14,16 @@
 
 <h3>Your sales/calls:</h3>
 {% if latest_sales_list_personal %}
-    <ul>
+    <!-- <ul>
     {% for sale in latest_sales_list_personal %}
         <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.date|date}} | {{ sale.full_name_customer }} | {{ sale.outcome }}</a></li>
     {% endfor %}
-    </ul>
+    </ul> -->
+    {% load django_tables2 %}
+    {% render_table table %}
 {% else %}
     <p>No sales are available.</p>
 {% endif %}
 
 <!-- <i>It is {% now "jS F Y H:i" %} now</i> -->
+{% endblock %}
