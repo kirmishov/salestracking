@@ -1,0 +1,10 @@
+{% if latest_sales_list %}
+    <h3>All sales/calls:</h3>
+    <ul>
+    {% for sale in latest_sales_list %}
+        <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.author }} | {{ sale.date|date}} | {{ sale.full_name_customer }} | {{ sale.outcome }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No sales are available.</p>
+{% endif %}

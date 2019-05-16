@@ -1,0 +1,19 @@
+<!-- <h1>Edit sale/call</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'sales:edit' sale.id %}" method="post">
+    {% csrf_token %}
+    {% for choice in sale.outcome.all %}
+        <h2>test</h2>
+    {% endfor %}
+    <input type="submit" value="Edit">
+</form> -->
+
+
+<h1>Edit sale/call</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>
