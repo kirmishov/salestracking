@@ -143,3 +143,4 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # https://wsvincent.com/django-user-authentication-tutorial-login-and-logout/
 LOGIN_REDIRECT_URL = 'sales:home'
 LOGOUT_REDIRECT_URL = 'sales:home'
+# LOGIN_URL = 'users/login'

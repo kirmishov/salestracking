@@ -20,7 +20,7 @@
     {% endfor %}
     </ul> -->
     {% load django_tables2 %}
-    {% render_table table %}
+    {% render_table table "mytable.html" %}
 {% else %}
     <p>No sales are available.</p>
 {% endif %}

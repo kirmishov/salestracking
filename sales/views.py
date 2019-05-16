@@ -36,6 +36,7 @@ class SummaryView(UserPassesTestMixin, generic.ListView):
     
     def test_func(self):
         return self.request.user.username == 'admin'
+        # TODO: change to smth like this: return self.request.user.is_superuser
 
 """
 class HomeView(LoginRequiredMixin, generic.ListView):
@@ -53,22 +54,29 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'sales/detail.html'
     login_url = 'login'
 
-class UpdateView(LoginRequiredMixin, generic.UpdateView):
+    # TODO: add test_func like in UpdateView
+
+class UpdateView(UserPassesTestMixin, generic.UpdateView):# , LoginRequiredMixin
     model = Sale
     fields = ['date', 'full_name_customer', 'email_customer', 'attended',
         'outcome', 'cash_collected', 'call_notes']
     template_name = 'sales/edit.html'
     login_url = 'login'
 
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user == self.get_object().author
+
 
 class SimpleTable(tables.Table):
     edit = tables.TemplateColumn('Edit', linkify=("sales:edit", {"pk": tables.A("pk")}), orderable=False)
+    # can be added verbose_name=''
     # id = tables.Column(linkify=("sales:edit", {"pk": tables.A("pk")}))
     # https://github.com/jieter/django-tables2/commit/204a7f23860d178afc8f3aef50512e6bf96f8f6b
 
     class Meta:
         model = Sale
-        attrs = {"class": "table table-bordered table-hover table-sm table-responsive"}
+        attrs = {"class": "table table-bordered table-hover table-sm"}
+        # table-responsive
         # https://getbootstrap.com/docs/4.3/content/tables/
         exclude = ('id','author', 'date_modified')# 'id',
     
