@@ -141,6 +141,6 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # https://wsvincent.com/django-user-authentication-tutorial-login-and-logout/
-LOGIN_REDIRECT_URL = 'sales:home'
+LOGIN_REDIRECT_URL = 'sales:home' # '/sales/2019/05' #'sales:home' #'sales:archive_month_numeric' # 'sales:home'
 LOGOUT_REDIRECT_URL = 'sales:home'
 # LOGIN_URL = 'users/login'

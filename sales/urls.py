@@ -17,4 +17,9 @@ urlpatterns = [
     # ex: sales/2/edit/
     path('<int:pk>/edit/', views.UpdateView.as_view(), name='edit'),
     # new | ex: sales/new
+
+    # Example: /2012/08/
+    path('<int:year>/<int:month>/',
+         views.SaleMonthArchiveView.as_view(month_format='%m'),
+         name="archive_month_numeric"),
 ]
