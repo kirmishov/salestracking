@@ -144,3 +144,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_REDIRECT_URL = 'sales:home' # '/sales/2019/05' #'sales:home' #'sales:archive_month_numeric' # 'sales:home'
 LOGOUT_REDIRECT_URL = 'sales:home'
 # LOGIN_URL = 'users/login'
+
+HASHID_FIELD_SALT = "sample_secure_salt"

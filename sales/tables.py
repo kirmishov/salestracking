@@ -43,4 +43,3 @@ class SimpleTable(tables.Table):
         if not request.user.username == 'admin': #TODO: is_supersuser()
             self.columns.hide('author')
     
-    # edit = tables.TemplateColumn('<a href="{% url "sales:detail" sale.id %}">Edit</a>', orderable=False)

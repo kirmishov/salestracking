@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from hashid_field import HashidAutoField
 
 # Create your models here.
 
@@ -10,6 +11,7 @@ class Sale(models.Model):
     date, FullName, email/contact, attended, outcome, cash_collected, call_notes
     outcome: won, lost, reschedule, cancelled
     """
+    id = HashidAutoField(primary_key=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -44,7 +46,7 @@ class Sale(models.Model):
         return '{}-{}-{}'.format(date_only, full_name_customer, outcome)
     """
     def get_absolute_url(self):
-        return reverse('sales:detail', args=[str(self.id)]) # from 'sales:detail'
+        return reverse('sales:detail', args=[self.id])
     
     def __str__(self):
         return '{} | {} | {}'.format(self.author, self.date, self.full_name_customer)

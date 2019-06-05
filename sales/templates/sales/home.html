@@ -6,7 +6,6 @@
 <h3>Hi {{ user.username|title }}! | <a href="{% url 'logout' %}">logout</a></h3>
   {% if user.is_superuser %}
     <p><a href="{% url 'sales:summary' month|date:"Y" month|date:"m" %}">Summary</a></p>
-    <!-- hardcoded month -->
   {% endif %}
 {% else %}
   <p>You are not logged in</p>
@@ -15,11 +14,9 @@
 
 <p>
   {% if previous_month %}
-      <!-- Previous Month: {{ previous_month|date:"F Y" }} -->
       <a href="{% url 'sales:archive_month_numeric' previous_month|date:"Y" previous_month|date:"m" %}"><b>&lt; {{ previous_month|date:"F Y" }}</b></a>
   {% endif %}
   {% if next_month %}
-      <!-- Next Month: {{ next_month|date:"F Y" }} -->
       <a href="{% url 'sales:archive_month_numeric' next_month|date:"Y" next_month|date:"m" %}"><b>{{ next_month|date:"F Y" }} &gt;</b></a>
   {% endif %}
 </p>
@@ -28,11 +25,6 @@
     <p>Total: ${{ cash_list.cash_collected__sum }}</p>
     <p><b>---- Add needed stats here ----</b></p>
 <h3>Your sales/calls:</h3>
-    <!-- <ul>
-    {% for sale in latest_sales_list_personal %}
-        <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.date|date}} | {{ sale.full_name_customer }} | {{ sale.outcome }}</a></li>
-    {% endfor %}
-    </ul> -->
     {% load django_tables2 %}
     {% render_table table "mytable.html" %}
 {% else %}
