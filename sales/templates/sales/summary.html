@@ -1,10 +1,95 @@
-{% if latest_sales_list %}
-    <h3>All sales/calls:</h3>
-    <ul>
-    {% for sale in latest_sales_list %}
-        <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.author }} | {{ sale.date|date}} | {{ sale.full_name_customer }} | {{ sale.outcome }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No sales are available.</p>
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+    {% if previous_month %}
+        <!-- Previous Month: {{ previous_month|date:"F Y" }} -->
+        <a href="{% url 'sales:summary' previous_month|date:"Y" previous_month|date:"m" %}"><b>&lt; {{ previous_month|date:"F Y" }}</b></a>
+    {% endif %}
+    {% if next_month %}
+        <!-- Next Month: {{ next_month|date:"F Y" }} -->
+        <a href="{% url 'sales:summary' next_month|date:"Y" next_month|date:"m" %}"><b>{{ next_month|date:"F Y" }} &gt;</b></a>
+    {% endif %}
+  </p>
+
+<h2>Overall stats for: {{ month|date:"F, Y" }}</h2> 
+{% if new1 %}
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>User</th>
+                <th>Calls Booked</th>
+                <th>Calls Attended</th>
+                <th>Call Show up Rate %</th>
+                <th>Enrollments</th>
+                <th>Close %</th>
+                <th>Total $</th>
+                <th>Earnings Per Call</th>
+                <th>Commission</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in new1 %}
+                <tr>
+                    {% for key, value in user.items %}
+                            <td>{{ value|title }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endif %}
+
+{% if monthly_totals %}
+    <h3>Totals:</h3>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Calls Booked</th>
+                <th>Calls Attended</th>
+                <th>Call Show up Rate %</th>
+                <th>Enrollments</th>
+                <th>Close %</th>
+                <th>Total $</th>
+                <th>Earnings Per Call</th>
+                <th>Commission</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    {% for key, value in monthly_totals.items %}
+                            <td>{{ value|title }}</td>
+                    {% endfor %}
+                </tr>
+        </tbody>
+    </table>
+    <h4>Grouped by day:</h4>
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Day</th>
+                <th>Count</th>
+                <th>Sum</th>
+                <th>Enrollments</th>
+                <th>Attended</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in date_based %}
+                <tr>
+                    <td>{{ day.day|date:"F, j" }}</td>
+                    <td>{{ day.c }}</td>
+                    <td>{{ day.s }}</td>
+                    <td>{{ day.enr }}</td>
+                    <td>{{ day.att }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p> No sales are available.</p>
+{% endif %}
+
+
+
+{% endblock %}

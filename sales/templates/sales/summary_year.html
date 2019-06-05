@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if total_month_based %}
+    <h3>Month based overall</h3>
+    <table class="table table-hover table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Month</th>
+                    <th>Total</th>
+                    <th>Enrollments</th>
+                    <th>Attended</th>
+                    <th>Comission</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in total_month_based %}
+                    <tr>
+                        <td>{{e.month|date:"F"}}</td>
+                        <td>${{e.s}}</td>
+                        <td>{{e.enrollments}}</td>
+                        <td>{{e.attended}}</td>
+                        <td>${{e.comission}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+{% else %}
+    <h3>There are no summary yet.</h3>
+{% endif %}
+
+
+<h3>Month overall by users</h3>
+{% for user in user_month_based %}
+    <p></p>
+    <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>{{user.name}}</th>
+                    <th>All</th>
+                    <th>Total, $</th>
+                    <th>Close %</th>
+                    <th>Earnings Per Call</th>
+                    <th>Comission</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in user.total %}
+                    <tr>
+                        <td>{{e.month|date:"F"}}</td>
+                        <td>{{e.c}}</td>
+                        <td>${{e.s}}</td>
+                        <td>{{e.close}}</td>
+                        <td>{{e.per_call}}</td>
+                        <td>{{e.comission}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+{% endfor %}
+
+{% endblock %}

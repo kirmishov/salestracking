@@ -3,9 +3,10 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h3>Hi {{ user.username }}! | <a href="{% url 'logout' %}">logout</a></h3>
+<h3>Hi {{ user.username|title }}! | <a href="{% url 'logout' %}">logout</a></h3>
   {% if user.is_superuser %}
-    <p><a href="{% url 'sales:summary' %}">Summary</a></p>
+    <p><a href="{% url 'sales:summary' month|date:"Y" month|date:"m" %}">Summary</a></p>
+    <!-- hardcoded month -->
   {% endif %}
 {% else %}
   <p>You are not logged in</p>
@@ -23,8 +24,10 @@
   {% endif %}
 </p>
 
-<h3>Your sales/calls:</h3>
 {% if latest_sales_list_personal %}
+    <p>Total: ${{ cash_list.cash_collected__sum }}</p>
+    <p><b>---- Add needed stats here ----</b></p>
+<h3>Your sales/calls:</h3>
     <!-- <ul>
     {% for sale in latest_sales_list_personal %}
         <li><a href="{% url 'sales:detail' sale.id %}">{{ sale.date|date}} | {{ sale.full_name_customer }} | {{ sale.outcome }}</a></li>

@@ -1,6 +1,15 @@
 {% load django_tables2 %}
 {% load i18n %}
 {% block table-wrapper %}
+{% if table.has_footer %}
+<tfoot {{ table.attrs.tfoot.as_html }}>
+    <tr>
+    {% for column in table.columns %}
+        <td {{ column.attrs.tf.as_html }}>{{ column.footer }}</td>
+    {% endfor %}
+    </tr>
+</tfoot>
+{% endif %}
 <div class="table-container">
     {% block table %}
         <table {% render_attrs table.attrs %}>
@@ -40,7 +49,7 @@
                 {% endfor %}
                 </tbody>
             {% endblock table.tbody %}
-            {% block table.tfoot %}
+            <!-- {% block table.tfoot %}
             {% if table.has_footer %}
             <tfoot {{ table.attrs.tfoot.as_html }}>
                 <tr>
@@ -50,7 +59,7 @@
                 </tr>
             </tfoot>
             {% endif %}
-            {% endblock table.tfoot %}
+            {% endblock table.tfoot %} -->
         </table>
     {% endblock table %}
 
