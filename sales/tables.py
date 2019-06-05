@@ -5,7 +5,7 @@ from django.utils.html import escape
 
 
 class SimpleTable(tables.Table):
-    edit = tables.TemplateColumn('Edit', linkify=("sales:edit", {"pk": tables.A("pk")}), orderable=False)
+    edit = tables.TemplateColumn('Edit', linkify=("sales:edit", {"pk": tables.A("pk")}), orderable=False, exclude_from_export=True)
     # can be added verbose_name=''
     # id = tables.Column(linkify=("sales:edit", {"pk": tables.A("pk")}))
     # https://github.com/jieter/django-tables2/commit/204a7f23860d178afc8f3aef50512e6bf96f8f6b

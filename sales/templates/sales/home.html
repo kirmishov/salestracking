@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load querystring from django_tables2 %}
 
 {% block content %}
 {% if user.is_authenticated %}
@@ -21,12 +21,14 @@
   {% endif %}
 </p>
 
+
 {% if latest_sales_list_personal %}
     <p>Total: ${{ cash_list.cash_collected__sum }}</p>
     <p><b>---- Add needed stats here ----</b></p>
-<h3>Your sales/calls:</h3>
+    <h3>Your sales/calls:</h3>
     {% load django_tables2 %}
     {% render_table table "mytable.html" %}
+    <a href="{% querystring '_export'='csv' %}">Download CSV</a>
 {% else %}
     <p>No sales are available.</p>
 {% endif %}

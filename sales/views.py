@@ -1,6 +1,7 @@
 from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 import django_tables2 as tables
+from django_tables2.export.views import ExportMixin
 from .tables import SimpleTable
 from django.shortcuts import redirect
 # from dateutil.relativedelta import relativedelta
@@ -16,7 +17,7 @@ from django.db.models.functions import TruncMonth, TruncDay
 User = get_user_model()
 
 
-class SaleMonthArchiveView(LoginRequiredMixin, MonthArchiveView, tables.SingleTableView):
+class SaleMonthArchiveView(LoginRequiredMixin, MonthArchiveView, ExportMixin, tables.SingleTableView):
     table_pagination = False # for simple solution display summary footer
     date_field = "date"
     allow_future = True # decide later True of False
