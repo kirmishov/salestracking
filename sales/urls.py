@@ -7,7 +7,7 @@ app_name = 'sales'
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('new/', views.SaleCreate.as_view(), name='create'),
-    path('<pk>/', views.DetailView.as_view(), name='detail'),
+    path('s/<pk>/', views.DetailView.as_view(), name='detail'),
     path('<pk>/edit/', views.UpdateView.as_view(), name='edit'),
     path('<pk>/delete/', views.DeleteView.as_view(), name='delete'),
     path('<int:year>/<int:month>/',
