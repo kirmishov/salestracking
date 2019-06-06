@@ -279,3 +279,4 @@ my_cookiecutter_django_project/media/
 
 keys.txt
 TODO.txt
+local_settings.py
