@@ -154,3 +154,6 @@ LOGOUT_REDIRECT_URL = 'sales:home'
 # LOGIN_URL = 'users/login'
 
 HASHID_FIELD_SALT = "sample_secure_salt"
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
