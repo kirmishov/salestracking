@@ -4,7 +4,6 @@ from django.urls import reverse
 from hashid_field import HashidAutoField
 from datetime import datetime
 
-# Create your models here.
 
 class Sale(models.Model):
     """
@@ -42,10 +41,6 @@ class Sale(models.Model):
     cash_collected = models.PositiveIntegerField()
     call_notes = models.TextField()
 
-    """
-    def __str__(self):
-        return '{}-{}-{}'.format(date_only, full_name_customer, outcome)
-    """
     def get_absolute_url(self):
         return reverse('sales:detail', args=[self.id])
     

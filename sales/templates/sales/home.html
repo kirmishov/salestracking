@@ -3,10 +3,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h3>Hi {{ user.username|title }}! | <a href="{% url 'logout' %}">logout</a></h3>
-  {% if user.is_superuser %}
-    <p><a href="{% url 'sales:summary' month|date:"Y" month|date:"m" %}">Summary</a></p>
-  {% endif %}
+<h3>Hi {{ user.username|title }}! | Sales/calls for {% now "F Y" %}</h3>
 {% else %}
   <p>You are not logged in</p>
   <a href="{% url 'login' %}">login</a>
@@ -28,9 +25,10 @@
     <h3>Your sales/calls:</h3>
     {% load django_tables2 %}
     {% render_table table "mytable.html" %}
-    <a href="{% querystring '_export'='csv' %}">Download CSV</a>
+    <a class="btn btn-outline-primary" href="{% querystring '_export'='csv' %}" role="button">Export CSV</a>
 {% else %}
-    <p>No sales are available.</p>
+    <p>No sales are available. Add new one?</p>
+    <a class="btn btn-outline-primary" href="#" role="button">+ New sale/call</a>
 {% endif %}
 
 <!-- <i>It is {% now "jS F Y H:i" %} now</i> -->
