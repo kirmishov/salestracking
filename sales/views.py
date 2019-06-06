@@ -39,10 +39,22 @@ class SaleMonthArchiveView(LoginRequiredMixin, MonthArchiveView, ExportMixin, ta
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_superuser:
-            context['cash_list'] = Sale.objects.filter(date__month=context['month'].month).aggregate(Sum('cash_collected'))
+            context['overall'] = Sale.objects.filter(date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'), Count('id'))
+            context['calls_attended'] = Sale.objects.filter(date__month=context['month'].month, date__year=context['month'].year, attended=True).aggregate(Count('id'))
+            context['calls_show_up_rate'] = '{}%'.format(int(round(context['calls_attended']['id__count'] / context['overall']['id__count'] * 100, 0))) if context['overall']['id__count'] != 0 else 'no data'
+            context['enrollments'] = Sale.objects.filter(date__month=context['month'].month, date__year=context['month'].year, outcome='Won').aggregate(Count('id'))
+            context['close'] = '{}%'.format(int(round(context['enrollments']['id__count'] / context['calls_attended']['id__count'] * 100, 0))) if context['calls_attended']['id__count'] != 0 else 'no data'
+            context['earnings_per_calll'] = '${}'.format(int(round(context['overall']['cash_collected__sum'] / context['calls_attended']['id__count'], 0))) if context['calls_attended']['id__count'] != 0 else 'no data'
+            context['comission'] = '${}'.format(int(round(context['overall']['cash_collected__sum'] * 0.1, 0))) if context['overall']['cash_collected__sum'] else 'no data'
         
         else:
-            context['cash_list'] = Sale.objects.filter(author=self.request.user, date__month=context['month'].month).aggregate(Sum('cash_collected'))
+            context['overall'] = Sale.objects.filter(author=self.request.user, date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'), Count('id'))
+            context['calls_attended'] = Sale.objects.filter(author=self.request.user, date__month=context['month'].month, date__year=context['month'].year, attended=True).aggregate(Count('id'))
+            context['calls_show_up_rate'] = '{}%'.format(int(round(context['calls_attended']['id__count'] / context['overall']['id__count'] * 100, 0))) if context['overall']['id__count'] != 0 else 'no data'
+            context['enrollments'] = Sale.objects.filter(author=self.request.user, date__month=context['month'].month, date__year=context['month'].year, outcome='Won').aggregate(Count('id'))
+            context['close'] = '{}%'.format(int(round(context['enrollments']['id__count'] / context['calls_attended']['id__count'] * 100, 0))) if context['calls_attended']['id__count'] != 0 else 'no data'
+            context['earnings_per_calll'] = '${}'.format(int(round(context['overall']['cash_collected__sum'] / context['calls_attended']['id__count'], 0))) if context['calls_attended']['id__count'] != 0 else 'no data'
+            context['comission'] = '${}'.format(int(round(context['overall']['cash_collected__sum'] * 0.1, 0))) if context['overall']['cash_collected__sum'] else 'no data'
 
         return context
 

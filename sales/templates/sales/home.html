@@ -20,8 +20,34 @@
 
 
 {% if latest_sales_list_personal %}
-    <p>Total: ${{ cash_list.cash_collected__sum }}</p>
-    <p><b>---- Add needed stats here ----</b></p>
+    <h3>Overall month stats:</h3>
+    <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>Calls Booked</th>
+            <th>Calls Attended</th>
+            <th>Calls Show Up Rate</th>
+            <th>Enrollments</th>
+            <th>Close</th>
+            <th>Total</th>
+            <th>Earnings Per Calll</th>
+            <th>Comission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ overall.id__count }}</td>
+            <td>{{ calls_attended.id__count }}</td>
+            <td>{{ calls_show_up_rate }}</td>
+            <td>{{ enrollments.id__count }}</td>
+            <td>{{ close }}</td>
+            <td>${{ overall.cash_collected__sum }}</td>
+            <td>{{ earnings_per_calll }}</td>
+            <td>{{ comission }}</td>
+          </tr>
+        </tbody>
+    </table>
+    
     <h3>Your sales/calls:</h3>
     {% load django_tables2 %}
     {% render_table table "mytable.html" %}
