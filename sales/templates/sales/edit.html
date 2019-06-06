@@ -1,6 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 <h1>Edit sale/call</h1>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update</button>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a class="btn btn-danger" href="{% url 'sales:delete' sale.pk %}" role="button">Delete</a>
 </form>
+
+
+{% endblock %}

@@ -6,12 +6,9 @@ from . import views
 app_name = 'sales'
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
-    # ex: sales/2
     path('<pk>/', views.DetailView.as_view(), name='detail'),
-    # ex: sales/2/edit/
     path('<pk>/edit/', views.UpdateView.as_view(), name='edit'),
-    # new | ex: sales/new
-    # Example: /2012/08/
+    path('<pk>/delete/', views.DeleteView.as_view(), name='delete'),
     path('<int:year>/<int:month>/',
          views.SaleMonthArchiveView.as_view(month_format='%m'),
          name="archive_month_numeric"),

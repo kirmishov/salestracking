@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 <h1>Sale/call {{ sale.author }} at {{ sale.date }} | <a href="{% url 'sales:edit' sale.pk %}">Edit</a></h1>
 <ul>
     <li>{{ sale.full_name_customer }}</li>
@@ -8,3 +12,5 @@
     <li>{{ sale.call_notes }}</li>
 </ul>
 <i>Last modified: {{ sale.date_modified }}</i>
+
+{% endblock %}

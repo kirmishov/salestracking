@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from hashid_field import HashidAutoField
+from datetime import datetime
 
 # Create your models here.
 
@@ -49,4 +50,4 @@ class Sale(models.Model):
         return reverse('sales:detail', args=[self.id])
     
     def __str__(self):
-        return '{} | {} | {}'.format(self.author, self.date, self.full_name_customer)
+        return '{} | {} | {}'.format(self.author, datetime.strftime(self.date, "%d %b %Y"), self.full_name_customer)

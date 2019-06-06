@@ -5,8 +5,10 @@ from django_tables2.export.views import ExportMixin
 from .tables import SimpleTable
 from django.shortcuts import redirect
 # from dateutil.relativedelta import relativedelta
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic.dates import MonthArchiveView, YearArchiveView
+
 
 from .models import Sale
 from django.contrib.auth import get_user_model
@@ -187,12 +189,35 @@ class SummaryView(UserPassesTestMixin, MonthArchiveView):
         return context
 
 
-class DetailView(LoginRequiredMixin, generic.DetailView):
+class DetailView(UserPassesTestMixin, generic.DetailView):
     model = Sale
     template_name = 'sales/detail.html'
-    login_url = 'login'
 
-    # TODO: add test_func like in UpdateView or delete this view
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user == self.get_object().author
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['month'] = timezone.now()
+        return context
+
+
+class DeleteView(UserPassesTestMixin, generic.DeleteView):
+    model = Sale
+    template_name = 'sales/delete.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user == self.get_object().author
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['month'] = timezone.now()
+        return context
+    
+    def get_success_url(self):
+        return reverse('sales:home')
+
+
 
 
 class UpdateView(UserPassesTestMixin, generic.UpdateView):# , LoginRequiredMixin
@@ -204,6 +229,12 @@ class UpdateView(UserPassesTestMixin, generic.UpdateView):# , LoginRequiredMixin
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user == self.get_object().author
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['month'] = timezone.now()
+        
+        return context
 
 
 class HomeView(LoginRequiredMixin, View):
