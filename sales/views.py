@@ -225,7 +225,6 @@ class UpdateView(UserPassesTestMixin, generic.UpdateView):# , LoginRequiredMixin
     fields = ['date', 'full_name_customer', 'email_customer', 'attended',
         'outcome', 'cash_collected', 'call_notes']
     template_name = 'sales/edit.html'
-    login_url = 'login'
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user == self.get_object().author
@@ -243,3 +242,27 @@ class HomeView(LoginRequiredMixin, View):
         year_str = timezone.now().year
         month_str = timezone.now().month
         return redirect('{}/{}/'.format(year_str, month_str))
+
+
+class SaleCreate(LoginRequiredMixin, generic.edit.CreateView):
+    model = Sale
+    login_url = 'login'
+    fields = ['date', 'full_name_customer', 'email_customer', 'attended',
+        'outcome', 'cash_collected', 'call_notes']
+    template_name = 'sales/create.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        # form.instance.date = timezone.now()
+        return super(SaleCreate, self).form_valid(form)
+    
+    def get_initial(self):
+        return {
+            'date': timezone.now()
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['month'] = timezone.now()
+        
+        return context
