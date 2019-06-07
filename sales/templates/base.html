@@ -1,5 +1,4 @@
 {% load static %}
-{% load tz %}
 
 <!doctype html>
     <head>
@@ -45,10 +44,6 @@
                 </nav>
         </header>
         <div class="container mt-3">
-            {{month|localtime}}
-            {% localtime on %}
-                {{month}}
-            {% endlocaltime %}
             {% block content %}
             {% endblock content %}
         </div>
