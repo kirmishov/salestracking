@@ -47,8 +47,11 @@
           </tr>
         </tbody>
     </table>
-    
-    <h3>Your sales/calls:</h3>
+    {% if request.user.is_superuser %}
+      <h3>All sales/calls:</h3>
+    {% else %}
+      <h3>Your sales/calls:</h3>
+    {% endif %}
     {% load django_tables2 %}
     {% render_table table "mytable.html" %}
     <a class="btn btn-outline-primary" href="{% querystring '_export'='csv' %}" role="button">Export CSV</a>
