@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 try:
-    from .local_settings import *
+    from .prod_settings import *
 except ImportError:
     pass
 
@@ -155,5 +155,5 @@ LOGOUT_REDIRECT_URL = 'sales:home'
 
 HASHID_FIELD_SALT = "sample_secure_salt"
 
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+# PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

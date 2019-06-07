@@ -40,6 +40,6 @@ class SimpleTable(tables.Table):
         exclude = ('id', 'date_modified')
     
     def before_render(self, request):
-        if not request.user.username == 'admin': #TODO: is_supersuser()
+        if not request.user.is_superuser:
             self.columns.hide('author')
     
