@@ -16,7 +16,7 @@ class Sale(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    date = models.DateField(auto_now=False, auto_now_add=False)
     date_modified = models.DateTimeField(auto_now=True)
     # https://docs.djangoproject.com/en/2.2/ref/models/fields/#datetimefield
     full_name_customer = models.CharField(max_length=100)
