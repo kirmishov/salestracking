@@ -40,6 +40,7 @@ class Sale(models.Model):
 
     cash_collected = models.PositiveIntegerField()
     call_notes = models.TextField()
+    recording_url = models.URLField(blank=True, max_length=300)
 
     def get_absolute_url(self):
         return reverse('sales:detail', args=[self.id])

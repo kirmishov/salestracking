@@ -235,7 +235,7 @@ class DeleteView(UserPassesTestMixin, generic.DeleteView):
 class UpdateView(UserPassesTestMixin, generic.UpdateView):# , LoginRequiredMixin
     model = Sale
     fields = ['date', 'full_name_customer', 'email_customer', 'attended',
-        'outcome', 'cash_collected', 'call_notes']
+        'outcome', 'cash_collected', 'call_notes', 'recording_url']
     template_name = 'sales/edit.html'
 
     def test_func(self):
@@ -260,7 +260,7 @@ class SaleCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Sale
     login_url = 'login'
     fields = ['date', 'full_name_customer', 'email_customer', 'attended',
-        'outcome', 'cash_collected', 'call_notes']
+        'outcome', 'cash_collected', 'call_notes', 'recording_url']
     template_name = 'sales/create.html'
 
     def form_valid(self, form):

@@ -10,6 +10,9 @@
     <li>Outcome: {{ sale.outcome }}</li>
     <li>Cash collected: {% ifnotequal sale.cash_collected 0 %}${% endifnotequal %}{{ sale.cash_collected }}</li>
     <li>Call notes: {{ sale.call_notes }}</li>
+    {% if sale.recording_url %}
+        <li>Recording URL: <a href="{{sale.recording_url}}">{{sale.recording_url}}</a></li>
+    {% endif %}
 </ul>
 <i>Last modified: {{ sale.date_modified }}</i>
 

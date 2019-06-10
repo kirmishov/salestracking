@@ -1,11 +1,14 @@
 import django_tables2 as tables
 from .models import Sale
 from django.utils.safestring import mark_safe
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 
 
 class SimpleTable(tables.Table):
     edit = tables.TemplateColumn('Edit', linkify=("sales:edit", {"pk": tables.A("pk")}), orderable=False, exclude_from_export=True)
+    recording_url = tables.Column(default='')
+    # '<a href="{{record.recording_url}}">Link</a>'
+
     # can be added verbose_name=''
     # id = tables.Column(linkify=("sales:edit", {"pk": tables.A("pk")}))
     # https://github.com/jieter/django-tables2/commit/204a7f23860d178afc8f3aef50512e6bf96f8f6b
@@ -43,3 +46,8 @@ class SimpleTable(tables.Table):
         if not request.user.is_superuser:
             self.columns.hide('author')
     
+    def render_recording_url(self, value):
+        return format_html(
+            '<a href="{url}">Link</a>',
+            url=mark_safe(value)
+        )
