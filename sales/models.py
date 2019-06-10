@@ -18,13 +18,12 @@ class Sale(models.Model):
     )
     date = models.DateField(auto_now=False, auto_now_add=False)
     date_modified = models.DateTimeField(auto_now=True)
-    # https://docs.djangoproject.com/en/2.2/ref/models/fields/#datetimefield
     full_name_customer = models.CharField(max_length=100)
-    email_customer = models.EmailField()
-    attended = models.BooleanField()
+    email_customer = models.EmailField(blank=True)
+    attended = models.BooleanField(default=True)
     
     # https://docs.djangoproject.com/en/2.2/ref/models/fields/#choices
-    # Won - Lost - Deposit/Followup - No Show - Rescheduled ?
+    
     WON = 'Won'
     LOST = 'Lost'
     RESCHEDULE = 'Reschedule'
@@ -34,7 +33,6 @@ class Sale(models.Model):
         (LOST, 'Lost'),
         (RESCHEDULE, 'Reschedule'),
         (CANCELLED, 'Cancelled'),
-        # add 'Other (temp)'
     )
     outcome = models.CharField(max_length=12, choices=OUTCOME_CHOICES)
 
