@@ -38,8 +38,8 @@ class Sale(models.Model):
     )
     outcome = models.CharField(max_length=12, choices=OUTCOME_CHOICES)
 
-    cash_collected = models.PositiveIntegerField()
-    call_notes = models.TextField()
+    cash_collected = models.PositiveIntegerField(default=0)
+    call_notes = models.TextField(blank=True)
     recording_url = models.URLField(blank=True, max_length=300)
 
     def get_absolute_url(self):
