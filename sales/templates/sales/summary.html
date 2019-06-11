@@ -14,7 +14,7 @@
 
 <h2>Overall stats for: {{ month|date:"F, Y" }}</h2> 
 {% if new1 %}
-    <table class="table table-hover">
+    <table class="table table-hover table-sm">
         <thead class="thead-dark">
             <tr>
                 <th>User</th>
@@ -32,7 +32,11 @@
             {% for user in new1 %}
                 <tr>
                     {% for key, value in user.items %}
-                            <td>{{ value|title }}</td>
+                        {% if key == 'Total $' or key == 'Earnings Per Call' or key == 'Commission' %}
+                        <td>${{ value }}</td>
+                        {% else %}
+                        <td>{{ value|title }}</td>
+                        {% endif %}
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -52,7 +56,7 @@
                 <th>Close %</th>
                 <th>Total $</th>
                 <th>Earnings Per Call</th>
-                <th>Commission</th>
+                <th>Commission $</th>
             </tr>
         </thead>
         <tbody>
@@ -64,14 +68,14 @@
         </tbody>
     </table>
     <h4>Grouped by day:</h4>
-    <table class="table table-hover">
+    <table class="table table-hover table-sm">
         <thead class="thead-light">
             <tr>
                 <th>Day</th>
-                <th>Count</th>
-                <th>Sum</th>
-                <th>Enrollments</th>
+                <th>Calls</th>
                 <th>Attended</th>
+                <th>Enrollments</th>
+                <th>Total $</th>
             </tr>
         </thead>
         <tbody>
@@ -79,9 +83,9 @@
                 <tr>
                     <td>{{ day.day|date:"F, j" }}</td>
                     <td>{{ day.c }}</td>
-                    <td>{{ day.s }}</td>
-                    <td>{{ day.enr }}</td>
                     <td>{{ day.att }}</td>
+                    <td>{{ day.enr }}</td>
+                    <td>${{ day.s }}</td>
                 </tr>
             {% endfor %}
         </tbody>
