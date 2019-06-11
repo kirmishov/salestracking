@@ -21,11 +21,11 @@ with open('For import Salestracking - All.csv') as f:
             _, created = Sale.objects.get_or_create(
                 author=CustomUser.objects.get(username=row[0]),
                 date=row[1],
-                full_name_customer=row[2],
-                email_customer=row[3],
+                full_name_customer=row[2].strip(),
+                email_customer=row[3].strip(),
                 attended=True if row[4]=='yes' else False,
                 outcome=row[5].title() if row[5].title() in outcome_choices else 'Reschedule',
                 cash_collected=cash_c,
-                call_notes=row[7],
-                recording_url=row[8]
+                call_notes=row[7].strip(),
+                recording_url=row[8].strip()
                 )
