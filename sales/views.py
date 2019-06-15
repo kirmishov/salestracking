@@ -32,9 +32,9 @@ class SaleMonthArchiveView(LoginRequiredMixin, MonthArchiveView, ExportMixin, ta
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return Sale.objects.all()
+            return Sale.objects.all().select_related('author')
         else:
-            return Sale.objects.filter(author=self.request.user)
+            return Sale.objects.filter(author=self.request.user).select_related('author')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -150,17 +150,18 @@ class SummaryView(UserPassesTestMixin, MonthArchiveView):
             calls_attended = len(Sale.objects.filter(author=user, attended=True, date__month=context['month'].month, date__year=context['month'].year))
             calls_booked = len(Sale.objects.filter(author=user, date__month=context['month'].month, date__year=context['month'].year))
             total_cash = Sale.objects.filter(author=user, date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'))['cash_collected__sum']
+            enrollments = len(Sale.objects.filter(author=user, outcome='Won', date__month=context['month'].month, date__year=context['month'].year))
             # not filtered by month yet
             context['new1'].append({
                 'name': user.username,
                 'calls booked': calls_booked,
                 'calls attended': calls_attended,
                 'Call Show up Rate %': int(round(calls_attended / calls_booked * 100, 0)) if calls_booked != 0 else '--',
-                'Enrollments': len(Sale.objects.filter(author=user, outcome='Won', date__month=context['month'].month, date__year=context['month'].year)),
-                'Close %': '{}%'.format(int(round(len(Sale.objects.filter(author=user, outcome='Won', date__month=context['month'].month, date__year=context['month'].year)) / calls_attended * 100, 0))) if calls_attended != 0 else '--',
+                'Enrollments': enrollments,
+                'Close %': '{}%'.format(int(round(enrollments / calls_attended * 100, 0))) if calls_attended != 0 else '--',
                 'Total $': total_cash if total_cash else 0,
-                'Earnings Per Call': int(round(Sale.objects.filter(author=user, date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'))['cash_collected__sum'] / calls_attended, 0)) if calls_attended != 0 else 0,
-                'Commission': int(round(Sale.objects.filter(author=user, date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'))['cash_collected__sum'] * 0.1, 0)) if Sale.objects.filter(author=user, date__month=context['month'].month, date__year=context['month'].year).aggregate(Sum('cash_collected'))['cash_collected__sum'] else 0,
+                'Earnings Per Call': int(round(total_cash / calls_attended, 0)) if calls_attended != 0 else 0,
+                'Commission': int(round(total_cash * 0.1, 0)) if total_cash else 0,
                 # can extend user model to Commission
             })
         if sum([user['calls booked'] for user in context['new1']]) > 0:
