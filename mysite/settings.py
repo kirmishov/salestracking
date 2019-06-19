@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://99ecff5ddeed487e9754297c5c7dfb1f@sentry.io/1485664",
+    integrations=[DjangoIntegration()]
+)
+
 try:
     from .prod_settings import *
 except ImportError:
@@ -50,6 +58,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'django_tables2',
+    # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'

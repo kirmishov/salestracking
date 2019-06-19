@@ -7,6 +7,8 @@ from django.utils.html import escape, format_html
 class SimpleTable(tables.Table):
     edit = tables.TemplateColumn('Edit', linkify=("sales:edit", {"pk": tables.A("pk")}), orderable=False, exclude_from_export=True)
     recording_url = tables.Column(default='')
+    full_name_customer = tables.Column(linkify=("sales:detail", {"pk": tables.A("pk")}))
+    # call_notes = TruncatedTextColumn(accessor=tables.A('Call_notes'))
     # '<a href="{{record.recording_url}}">Link</a>'
 
     # can be added verbose_name=''
@@ -51,3 +53,14 @@ class SimpleTable(tables.Table):
             '<a href="{url}">Link</a>',
             url=mark_safe(value)
         )
+
+    def render_call_notes(self, value):
+        if len(value) > 102:
+            return value[0:99] + '...'
+        return str(value)
+
+    def value_call_notes(self, value):
+        return value
+    
+    def value_recording_url(self, value):
+        return value
